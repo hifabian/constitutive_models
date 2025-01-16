@@ -26,4 +26,5 @@ class Rigid_Johnson_Segalman(Johnson_Segalman):
 
     @staticmethod
     def stress_tensor(A, gradU, Wi, β, ε0):
+        # NOTE: Unsure about the A @ A term, derived from L tensor
         return (1-β) / ((1-ε0)*Wi) * (A@A - np.eye(*A.shape)) + β * (gradU+gradU.transpose())
