@@ -1,1 +1,13 @@
-__all__ = ["ConstitutiveModel", "FENE", "Corotational_Maxwell", "CoupledUCM", "Giesekus", "Johnson_Segalman", "Oldroyd_B", "Oldroyd_A", "UCM", "Saramito"]
+__all__ = ["ConstitutiveModel",
+           "FENE",
+           "Corotational_Maxwell",
+           "CoupledUCM",
+           "Giesekus",
+           "Johnson_Segalman",
+           "Leonov",
+           "Oldroyd_B",
+           "Oldroyd_A",
+           "PTT",
+           "Saramito",
+           "UCM",
+]
