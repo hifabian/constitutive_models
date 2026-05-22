@@ -12,7 +12,7 @@ class Saramito(ConstitutiveModel):
 
     @staticmethod
     def equation(τ, gradU, Wi, β, Bi):
-        τd = np.linalg.norm((τ-np.trace(τ)/(len(τ.shape))*np.eye(*τ.shape)))+1e-15
+        τd = np.linalg.norm((τ-np.trace(τ)/(τ.shape[0])*np.eye(*τ.shape)))+1e-15
         return Wi*ConstitutiveModel.covariant_derivative(gradU, τ) \
                + max(0, (τd-Bi)/τd)*τ \
                - (1-β)*(gradU+gradU.transpose())

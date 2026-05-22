@@ -13,6 +13,10 @@ class Oldroyd_B(ConstitutiveModel):
         return (1-β) / Wi * (A - np.eye(*A.shape)) + β * (gradU+gradU.transpose())
 
     @staticmethod
+    def N1(Wi, β, ndim=3):
+        return 2*(1-β)*Wi
+
+    @staticmethod
     def uni_ext_N1(Wi, β):
         return 3*(β+(1-β)/((1-2*Wi)*(1+Wi)))
 
