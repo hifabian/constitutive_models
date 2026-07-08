@@ -8,6 +8,7 @@ __all__ = ["ConstitutiveModel",
            "Oldroyd_B",
            "Oldroyd_A",
            "PTT",
+           'lPTT',
            "Saramito",
            "UCM",
 ]
