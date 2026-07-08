@@ -16,7 +16,7 @@ class FENE_CR(ConstitutiveModel):
 
     @staticmethod
     def stress_tensor(A, gradU, Wi, β, L):
-        return (1-β) / Wi * FENE_CR.F(np.trace(A), L, A.shape[0]) * ( A - np.eye(*A.shape) ) \
+        return (1-β) / Wi * ( FENE_CR.F(np.trace(A), L, A.shape[0]) * A - np.eye(*A.shape) ) \
             + β * (gradU+gradU.transpose())
 
     @staticmethod
