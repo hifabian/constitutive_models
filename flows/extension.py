@@ -1,5 +1,6 @@
 import warnings
 import numpy as np
+import utils
 from scipy.integrate import RK45
 from algorithms import pseudo_arclength
 
@@ -29,6 +30,8 @@ def steady(ndim, b, Wimax, constEq, con_kwargs={}, pal_kwargs={}):
     τ : narray
         Array of (polymeric and viscous) stress tensors.
     """
+    warnings.formatwarning = utils.warning_format
+
     # Gradient for different extensional flows (non-dimensional)
     gradU = np.array([[-0.5*(1+b), 0.0, 0.0],
                       [ 0.0,-0.5*(1-b), 0.0],
@@ -82,6 +85,8 @@ def step(ndim, b, Wi, constEq, con_kwargs={}, ODESolver=RK45, tmax=1e3, ttol=Non
     τ : narray
         Array of (polymeric and viscous) stress tensors.
     """
+    warnings.formatwarning = utils.warning_format
+
     # Gradient for different extensional flows (non-dimensional)
     gradU = np.array([[-0.5*(1+b), 0.0, 0.0],
                       [ 0.0,-0.5*(1-b), 0.0],

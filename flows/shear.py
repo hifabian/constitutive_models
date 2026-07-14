@@ -1,6 +1,7 @@
 import warnings
 import numpy as np
 import scipy.optimize as sopt
+import utils
 from scipy.integrate import RK45, Radau
 from algorithms import pseudo_arclength
 
@@ -28,6 +29,8 @@ def steady(ndim, Wimax, constEq, con_kwargs={}, pal_kwargs={}):
     τ : narray
         Array of (polymeric and viscous) stress tensors.
     """
+    warnings.formatwarning = utils.warning_format
+
     # Gradient for different shear flows (non-dimensional)
     gradU = np.array([[0.0, 0.0, 0.0],
                       [1.0, 0.0, 0.0],
@@ -76,6 +79,8 @@ def startup(ndim, Wi, constEq, con_kwargs={}, ODESolver=RK45, tmax=1e4, ttol=Non
     τ : narray
         Array of (polymeric and viscous) stress tensors.
     """
+    warnings.formatwarning = utils.warning_format
+
     # Gradient for different shear flows (non-dimensional)
     gradU = np.array([[0.0, 0.0, 0.0],
                       [1.0, 0.0, 0.0],
@@ -144,6 +149,8 @@ def relaxation(ndim, γ, dt, constEq, con_kwargs={}, ODESolver=RK45, tmax=1e4, t
     τ : narray
         Array of (polymeric and viscous) stress tensors.
     """
+    warnings.formatwarning = utils.warning_format
+
     # Gradient for different shear flows (non-dimensional)
     gradU = lambda t: np.array([[0.0, 0.0, 0.0],
                                 [γ/np.sqrt(np.pi*dt**2/9)*np.exp(-(t-dt/2)**2/(dt**2/9)), 0.0, 0.0],
@@ -210,6 +217,8 @@ def cessation(ndim, dγ0, constEq, con_kwargs={}, ODESolver=Radau, tmax=1e3, tto
     τ : narray
         Array of (polymeric and viscous) stress tensors.
     """
+    warnings.formatwarning = utils.warning_format
+
     def solve_initial(dγ0, constEq, A0, con_kwargs={}):
         # Initial gradient before cessation
         gradU0 = np.array([[0.0, 0.0, 0.0],

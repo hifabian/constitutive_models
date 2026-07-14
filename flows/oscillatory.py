@@ -1,6 +1,7 @@
 import warnings
 import numpy as np
 import scipy.optimize as sopt
+import utils
 from scipy.integrate import odeint, RK45, Radau
 from algorithms import pseudo_arclength
 
@@ -33,6 +34,8 @@ def shear(ndim, Wi, constEq, dγdt, t, con_kwargs={}):
     τ : narray
         Array of (polymeric and viscous) stress tensors.
     """
+    warnings.formatwarning = utils.warning_format
+
     # Gradient for different shear flows (non-dimensional)
     gradU = np.array([[0.0, 0.0, 0.0],
                       [1.0, 0.0, 0.0],
