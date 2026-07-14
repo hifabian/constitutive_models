@@ -1,8 +1,8 @@
 from .ConstitutiveModel import *
 
 
-class PTT(ConstitutiveModel):
-    name = "PTT"
+class ePTT(ConstitutiveModel):
+    name = "ePTT"
 
     @staticmethod
     def equation(A, gradU, Wi, β, ε):
