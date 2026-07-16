@@ -5,9 +5,9 @@ class Newtonian(ConstitutiveModel):
     name = "Newtonian"
 
     @staticmethod
-    def equation(A, gradU, Wi, β):
+    def equation(A, gradU, Wi):
         return np.zeros(A.shape)
 
     @staticmethod
-    def stress_tensor(A, gradU, Wi, β):
-        return β * (gradU+gradU.transpose())
+    def stress_tensor(A, gradU, Wi):
+        return gradU+gradU.transpose()
