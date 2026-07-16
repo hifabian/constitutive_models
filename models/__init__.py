@@ -1,4 +1,5 @@
 __all__ = ["ConstitutiveModel",
+           "Newtonian",
            "FENE",
            "Corotational_Maxwell",
            "CoupledUCM",
