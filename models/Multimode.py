@@ -13,7 +13,8 @@ class Multimode(ConstitutiveModel):
             w (array):   Weighting factors for each mode
         """
         assert(len(w) == len(Wiq)), "Length of Wiq and w must be the same"
-        assert(np.all(np.array(w) >= 0)), "Weighting factors must be non-negative"
+        assert(np.all(np.array(w) >= 0)), "Weights must be non-negative"
+        assert(np.isclose(np.sum(w), 1.0)), "Weights must be normalized"
 
         self.nmodes = len(Wiq)
         self.models = model
@@ -35,4 +36,7 @@ class Multimode(ConstitutiveModel):
         return τ
 
     def zero_state(self, ndim):
-        return np.tile(np.eye(ndim), (self.nmodes,1,1))
+        A = np.zeros([self.nmodes, ndim, ndim])
+        for idx in range(self.nmodes):
+            A[idx] = self.models[idx].zero_state(ndim)
+        return A
