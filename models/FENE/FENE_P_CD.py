@@ -6,7 +6,7 @@ class FENE_P_CD(ConstitutiveModel):
 
     @staticmethod
     def F(trA, L, ndim=3):
-        return (L**2-dim)/(L**2-trA)
+        return (L**2-ndim)/(L**2-trA)
 
     @staticmethod
     def Z(trA, κ, ndim=3):
