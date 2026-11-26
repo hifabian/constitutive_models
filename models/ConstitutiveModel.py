@@ -15,12 +15,12 @@ class ConstitutiveModel(ABC):
 
     @staticmethod
     def contravariant_derivative(gradU, A):
-        return -gradU.transpose() @ A - A @ gradU
+        return -gradU.T @ A - A @ gradU
 
 
     @staticmethod
     def covariant_derivative(gradU, A):
-        return gradU @ A + A @ gradU.transpose()
+        return gradU @ A + A @ gradU.T
 
     @staticmethod
     def zero_state(ndim):
