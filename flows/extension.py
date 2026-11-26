@@ -33,11 +33,21 @@ def steady(ndim, b, Wimax, constEq, con_kwargs={}, pal_kwargs={}):
     warnings.formatwarning = utils.warning_format
 
     # Gradient for different extensional flows (non-dimensional)
-    gradU = np.array([[-0.5*(1+b), 0.0, 0.0],
-                      [ 0.0,-0.5*(1-b), 0.0],
-                      [ 0.0, 0.0, 1]])
+    if ndim == 3:
+        gradU = np.array([[-0.5*(1+b), 0.0, 0.0],
+                          [ 0.0,-0.5*(1-b), 0.0],
+                          [ 0.0, 0.0, 1]])
+    elif ndim == 2:
+        gradU = np.array([[-1, 0.0],
+                          [ 0.0,1]])
+    else:
+        raise ValueError("ndim must be 2 or 3")
     # Residual + residual for arclength
-    residual = lambda A, Wi: constEq.equation(A, gradU, Wi, **con_kwargs)
+    def residual(A, Wi):
+        res = constEq.equation(A, gradU, Wi, **con_kwargs)
+        if hasattr(constEq, "constraint"):
+            res = res + constEq.constraint(A)*A
+        return res
     adj_residual = lambda T: residual(T[:-1].reshape(constEq.zero_state(ndim).shape), T[-1]).flatten()
     # Run pseudo-arclength continuation
     T0 = np.hstack([constEq.zero_state(ndim).flatten(), 1e-5])
@@ -88,9 +98,15 @@ def step(ndim, b, Wi, constEq, con_kwargs={}, ODESolver=RK45, tmax=1e3, ttol=Non
     warnings.formatwarning = utils.warning_format
 
     # Gradient for different extensional flows (non-dimensional)
-    gradU = np.array([[-0.5*(1+b), 0.0, 0.0],
-                      [ 0.0,-0.5*(1-b), 0.0],
-                      [ 0.0, 0.0, 1]])
+    if ndim == 3:
+        gradU = np.array([[-0.5*(1+b), 0.0, 0.0],
+                          [ 0.0,-0.5*(1-b), 0.0],
+                          [ 0.0, 0.0, 1]])
+    elif ndim == 2:
+        gradU = np.array([[-1, 0.0],
+                          [ 0.0,1]])
+    else:
+        raise ValueError("ndim must be 2 or 3")
     # Off-On function
     time_control = lambda t: 1.0 if t < tmax * tchange else 0.01
     # Initial values
@@ -124,5 +140,5 @@ def step(ndim, b, Wi, constEq, con_kwargs={}, ODESolver=RK45, tmax=1e3, ttol=Non
     t = np.array(tvals)
     for idx in range(nSteps):
         A = Avals[idx].reshape(A0.shape)
-        τ[idx] = Wi*constEq.stress_tensor(A, gradU, Wi, **con_kwargs)
+        τ[idx] = Wi*constEq.stress_tensor(A, time_control(t[idx])*gradU, Wi, **con_kwargs)
     return t, τ

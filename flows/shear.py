@@ -36,7 +36,11 @@ def steady(ndim, Wimax, constEq, con_kwargs={}, pal_kwargs={}):
                       [1.0, 0.0, 0.0],
                       [0.0, 0.0, 0.0]])[:ndim,:ndim]
     # Residual + residual for arclength
-    residual = lambda A, Wi: constEq.equation(A, gradU, Wi, **con_kwargs)
+    def residual(A, Wi):
+        res = constEq.equation(A, gradU, Wi, **con_kwargs)
+        if hasattr(constEq, "constraint"):
+            res = res + constEq.constraint(A)*A
+        return res
     adj_residual = lambda T: residual(T[:-1].reshape(constEq.zero_state(ndim).shape), T[-1]).flatten()
     # Run pseudo-arclength continuation
     T0 = np.hstack([constEq.zero_state(ndim).flatten(), 1e-5])
