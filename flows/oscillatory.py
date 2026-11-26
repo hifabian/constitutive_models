@@ -29,8 +29,6 @@ def shear(ndim, Wi, constEq, dγdt, t, con_kwargs={}):
 
     Returns
     -------
-    t : narray
-        Array of time steps.
     τ : narray
         Array of (polymeric and viscous) stress tensors.
     """
