@@ -157,7 +157,7 @@ def relaxation(ndim, γ, dt, constEq, con_kwargs={}, ODESolver=RK45, tmax=1e4, t
 
     # Gradient for different shear flows (non-dimensional)
     gradU = lambda t: np.array([[0.0, 0.0, 0.0],
-                                [γ/np.sqrt(np.pi*dt**2/9)*np.exp(-(t-dt/2)**2/(dt**2/9)), 0.0, 0.0],
+                                [γ/np.sqrt(np.pi*dt**2/36)*np.exp(-(t-dt/2)**2/(dt**2/36)), 0.0, 0.0],
                                 [0.0, 0.0, 0.0]])[:ndim,:ndim]
     # Initial values
     t0 = 0.0
