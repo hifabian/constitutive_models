@@ -13,4 +13,5 @@ __all__ = ["ConstitutiveModel",
            "lPTT",
            "Saramito",
            "UCM",
+           "FTQ",
 ]
