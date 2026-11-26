@@ -14,14 +14,13 @@ class Multimode(ConstitutiveModel):
         """
         assert(len(w) == len(Wiq)), "Length of Wiq and w must be the same"
         assert(np.all(np.array(w) >= 0)), "Weights must be non-negative"
-        assert(np.isclose(np.sum(w), 1.0)), "Weights must be normalized"
 
         self.nmodes = len(Wiq)
         self.models = model
         if not isinstance(self.models, np.ndarray):
             self.models = np.full(self.nmodes, self.models)
         self.Wiq = Wiq
-        self.w = w
+        self.w = w / np.sum(w)
 
     def equation(self, A, gradU, Wi, con_kwargs):
         res = np.empty(A.shape)
