@@ -6,9 +6,9 @@ class Corotational_Maxwell(ConstitutiveModel):
 
     @staticmethod
     def equation(τ, gradU, Wi):
-        return Wi*(0.5*ConstitutiveModel.contravariant_derivative(gradU, τ) \
+        return (0.5*ConstitutiveModel.contravariant_derivative(gradU, τ) \
                  + 0.5*(gradU @ τ + τ @ gradU.transpose())) \
-            + (τ - (gradU+gradU.transpose()))
+            + (τ - (gradU+gradU.transpose())) / Wi
 
     @staticmethod
     def stress_tensor(τ, gradU, Wi):

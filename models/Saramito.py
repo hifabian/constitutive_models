@@ -13,9 +13,9 @@ class Saramito(ConstitutiveModel):
     @staticmethod
     def equation(τ, gradU, Wi, β, Bi):
         τd = np.linalg.norm((τ-np.trace(τ)/(τ.shape[0])*np.eye(*τ.shape)))+1e-15
-        return Wi*ConstitutiveModel.covariant_derivative(gradU, τ) \
-               + max(0, (τd-Bi)/τd)*τ \
-               - (1-β)*(gradU+gradU.transpose())
+        return ConstitutiveModel.contravariant_derivative(gradU, τ) \
+               + max(0, (τd-Bi)/τd)*τ / Wi \
+               - (1-β)*(gradU+gradU.transpose()) / Wi
 
     @staticmethod
     def stress_tensor(τ, gradU, Wi, β, Bi):
@@ -36,7 +36,7 @@ class Bingham(ConstitutiveModel):
         γ0 = np.linalg.norm(gradU+gradU.transpose())+1e-15
         τt = Bingham.stress_tensor(τ, gradU, Wi, β, Bi)
         τd = np.linalg.norm((τt-np.trace(τt)/(len(τ.shape))*np.eye(*τ.shape)))
-        return 0*τ if τd < 1e-15 else τ - min(0, Bi/γ0 + (1-β))*(gradU+gradU.transpose())
+        return 0*τ if τd < 1e-15 else τ / Wi - min(0, Bi/γ0 + (1-β))*(gradU+gradU.transpose()) / Wi
 
     @staticmethod
     def stress_tensor(τ, gradU, Wi, β, Bi):
