@@ -15,11 +15,11 @@ class Saramito(ConstitutiveModel):
         τd = np.linalg.norm((τ-np.trace(τ)/(τ.shape[0])*np.eye(*τ.shape)))+1e-15
         return ConstitutiveModel.contravariant_derivative(gradU, τ) \
                + max(0, (τd-Bi)/τd)*τ / Wi \
-               - (1-β)*(gradU+gradU.transpose()) / Wi
+               - (1-β)*(gradU+gradU.T) / Wi
 
     @staticmethod
     def stress_tensor(τ, gradU, Wi, β, Bi):
-        return τ + β * (gradU+gradU.transpose())
+        return τ + β * (gradU+gradU.T)
 
     @staticmethod
     def zero_state(ndim):
@@ -29,18 +29,14 @@ class Saramito(ConstitutiveModel):
 class Bingham(ConstitutiveModel):
     name = "Bingham"
 
-    # TODO this is probably wrong; needs minimum apparent viscosity (i.e., regularization)
-
     @staticmethod
     def equation(τ, gradU, Wi, β, Bi):
-        γ0 = np.linalg.norm(gradU+gradU.transpose())+1e-15
-        τt = Bingham.stress_tensor(τ, gradU, Wi, β, Bi)
-        τd = np.linalg.norm((τt-np.trace(τt)/(len(τ.shape))*np.eye(*τ.shape)))
-        return 0*τ if τd < 1e-15 else τ / Wi - min(0, Bi/γ0 + (1-β))*(gradU+gradU.transpose()) / Wi
+        γ0 = np.linalg.norm(gradU+gradU.T)+1e-15
+        return τ - (Bi/γ0 + (1-β))*(gradU+gradU.T)
 
     @staticmethod
     def stress_tensor(τ, gradU, Wi, β, Bi):
-        return τ + β * (gradU+gradU.transpose())
+        return τ + β * (gradU+gradU.T)
 
     @staticmethod
     def zero_state(ndim):
