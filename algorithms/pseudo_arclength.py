@@ -58,7 +58,7 @@ def pseudo_arclength(residual, T0, λmax, maxIt=2**15, ds0=1e-2, dsTtol=1e-2, ds
             # Solve system
             T0 = T[-1]
             sol = sopt.root(lambda T1: tres(T1, T0, dT0, ds),
-                            x0=T0, options={"maxfev": 1000})
+                            x0=T0+ds*dT0, options={"maxfev": 1000})
             T1 = sol.x
             success = sol.success
 
