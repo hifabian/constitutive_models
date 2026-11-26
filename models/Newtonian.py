@@ -10,4 +10,4 @@ class Newtonian(ConstitutiveModel):
 
     @staticmethod
     def stress_tensor(A, gradU, Wi):
-        return gradU+gradU.transpose()
+        return gradU+gradU.T

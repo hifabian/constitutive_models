@@ -17,7 +17,7 @@ class FENE_PTML(ConstitutiveModel):
         return 4*ε0/(ndim+trA/ndim)
     @staticmethod
     def equation(A, gradU, Wi, β, L, κ, ε0):
-        D = 0.5*(gradU+gradU.transpose())
+        D = 0.5*(gradU+gradU.T)
         return ConstitutiveModel.contravariant_derivative(gradU, A) \
             + FENE_PTML.E(np.trace(A), ε0, A.shape[0]) *(D @ A + A @ D) \
             + ( FENE_PTML.F(np.trace(A), L, A.shape[0]) * A - np.eye(*A.shape) ) \
@@ -27,4 +27,4 @@ class FENE_PTML(ConstitutiveModel):
     def stress_tensor(A, gradU, Wi, β, L, κ, ε0):
         return (1-β) / Wi \
             * ( FENE_PTML.F(np.trace(A), L, A.shape[0]) * A - np.eye(*A.shape) ) \
-            + β * (gradU+gradU.transpose())
+            + β * (gradU+gradU.T)

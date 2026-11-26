@@ -10,7 +10,7 @@ class Oldroyd_A(ConstitutiveModel):
 
     @staticmethod
     def stress_tensor(A, gradU, Wi, β):
-        return (1-β) / Wi * (np.eye(*A.shape) - A) + β * (gradU+gradU.transpose())
+        return (1-β) / Wi * (np.eye(*A.shape) - A) + β * (gradU+gradU.T)
 
     @staticmethod
     def uni_ext_N1(Wi, β):
@@ -27,4 +27,4 @@ class Rigid_Oldroyd_A(Oldroyd_A):
     @staticmethod
     def stress_tensor(A, gradU, Wi, β):
         # NOTE: Unsure about the A @ A term, derived from L tensor
-        return (1-β) / Wi * (np.eye(*A.shape) - A@A) + β * (gradU+gradU.transpose())
+        return (1-β) / Wi * (np.eye(*A.shape) - A@A) + β * (gradU+gradU.T)

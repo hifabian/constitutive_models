@@ -23,4 +23,4 @@ class Leonov(ConstitutiveModel):
 
     @staticmethod
     def stress_tensor(A, gradU, Wi, β):
-        return (1-β) / Wi * A + β * (gradU+gradU.transpose())
+        return (1-β) / Wi * A + β * (gradU+gradU.T)

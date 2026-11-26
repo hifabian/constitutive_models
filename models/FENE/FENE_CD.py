@@ -22,4 +22,4 @@ class FENE_CD(ConstitutiveModel):
     def stress_tensor(A, gradU, Wi, β, L, κ):
         return (1-β) / Wi \
             * FENE_CD.F(np.trace(A), L, A.shape[0]) * ( A - np.eye(*A.shape) ) \
-            + β * (gradU+gradU.transpose())
+            + β * (gradU+gradU.T)

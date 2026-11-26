@@ -42,5 +42,6 @@ class CoupledUCM(ConstitutiveModel):
         τ += (1-β1)*λ / Wi * (A[1] - np.eye(*τ.shape))
         return τ
 
+    @staticmethod
     def zero_state(ndim):
         return np.tile(np.eye(ndim), (2,1,1))

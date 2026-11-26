@@ -6,14 +6,14 @@ class Johnson_Segalman(ConstitutiveModel):
 
     @staticmethod
     def equation(A, gradU, Wi, β, ε0):
-        D = 0.5*(gradU+gradU.transpose())
+        D = 0.5*(gradU+gradU.T)
         return ConstitutiveModel.contravariant_derivative(gradU, A) \
             + ε0*(D @ A + A @ D) \
             + (A - np.eye(*A.shape)) / Wi
 
     @staticmethod
     def stress_tensor(A, gradU, Wi, β, ε0):
-        return (1-β) / ((1-ε0)*Wi) * (A - np.eye(*A.shape)) + β * (gradU+gradU.transpose())
+        return (1-β) / ((1-ε0)*Wi) * (A - np.eye(*A.shape)) + β * (gradU+gradU.T)
 
 
 
@@ -27,4 +27,4 @@ class Rigid_Johnson_Segalman(Johnson_Segalman):
     @staticmethod
     def stress_tensor(A, gradU, Wi, β, ε0):
         # NOTE: Unsure about the A @ A term, derived from L tensor
-        return (1-β) / ((1-ε0)*Wi) * (A@A - np.eye(*A.shape)) + β * (gradU+gradU.transpose())
+        return (1-β) / ((1-ε0)*Wi) * (A@A - np.eye(*A.shape)) + β * (gradU+gradU.T)

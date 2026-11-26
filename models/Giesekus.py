@@ -12,7 +12,7 @@ class Giesekus(ConstitutiveModel):
     @staticmethod
     def stress_tensor(A, gradU, Wi, β, α):
         return (1-β) / Wi * (A - np.eye(*A.shape)) \
-            + β * (gradU+gradU.transpose())
+            + β * (gradU+gradU.T)
 
 
 class Giesekus_A(ConstitutiveModel):
@@ -26,4 +26,4 @@ class Giesekus_A(ConstitutiveModel):
     @staticmethod
     def stress_tensor(A, gradU, Wi, β, α):
         return (1-β) / Wi * (np.eye(*A.shape)- A) \
-            + β * (gradU+gradU.transpose())
+            + β * (gradU+gradU.T)
