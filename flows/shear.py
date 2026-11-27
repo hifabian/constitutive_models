@@ -44,6 +44,8 @@ def steady(ndim, Wimax, constEq, con_kwargs={}, pal_kwargs={}):
     adj_residual = lambda T: residual(T[:-1].reshape(constEq.zero_state(ndim).shape), T[-1]).flatten()
     # Run pseudo-arclength continuation
     T0 = np.hstack([constEq.zero_state(ndim).flatten(), 1e-5])
+    if hasattr(constEq, "steady_guess"):
+        T0 = np.hstack([constEq.steady_guess(gradU, **con_kwargs).flatten(), 1e-5])
     T = pseudo_arclength(adj_residual, T0, Wimax, **pal_kwargs)
     # Transform output
     nSteps = len(T)
